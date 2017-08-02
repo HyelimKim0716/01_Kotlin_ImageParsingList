@@ -3,7 +3,6 @@ package com.innowireless.a01_kotlinimageparsinglist.view.image.presenter
 import android.util.Log
 import com.innowireless.a01_kotlinimageparsinglist.data.ImageData
 import com.innowireless.a01_kotlinimageparsinglist.data.model.ImageItem
-import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.net.URL
@@ -17,10 +16,6 @@ class ImagePresenter(override val view: ImageContract.View) : ImageContract.Pres
     var loadImageThread: Thread? = null
     var imageItemList: MutableList<ImageItem> = ArrayList()
 
-//    interface ImagePresenterListener {
-//        fun
-//    }
-
     override fun loadImages() {
         imageItemList.clear()
         if (loadImageThread != null) {
@@ -28,6 +23,7 @@ class ImagePresenter(override val view: ImageContract.View) : ImageContract.Pres
             loadImageThread = null
         }
 
+        // Koroutine
         loadImageThread = Thread(Runnable { kotlin.run {
             val imgUrl = URL("https://randomuser.me/api/?results=20")
             val con = imgUrl.openConnection()
