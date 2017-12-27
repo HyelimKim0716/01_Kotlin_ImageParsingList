@@ -28,23 +28,38 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     fun checkPermission() {
-        val permissionInternet = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+        var permissionGranted = true
+
+        val permissionInternet = arrayOf(
+                ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET),
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE))
+
         Log.d("MainActivity", "checkPermission internet = $permissionInternet (0 : Granted, -1 : Denied)")
-        if (permissionInternet == PackageManager.PERMISSION_GRANTED) {
-            PackageManager.PERMISSION_DENIED
-            replaceFragment(frame_layout.id, ImageFragment.newInstance())
-        } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.INTERNET), PERMISSION_REQUEST_CODE)
+        permissionInternet.forEach {
+            if (it == PackageManager.PERMISSION_DENIED)
+                permissionGranted = false
         }
+
+        if (permissionGranted)
+            replaceFragment(frame_layout.id, ImageFragment.newInstance())
+        else
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.INTERNET, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+                    PERMISSION_REQUEST_CODE)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode) {
             PERMISSION_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    replaceFragment(frame_layout.id, ImageFragment.newInstance())
-                }
+                if (grantResults.isNotEmpty())
+                    grantResults.forEach {
+                        if (it == PackageManager.PERMISSION_GRANTED) {
+                            replaceFragment(frame_layout.id, ImageFragment.newInstance())
+                        }
+                    }
             }
         }
     }
