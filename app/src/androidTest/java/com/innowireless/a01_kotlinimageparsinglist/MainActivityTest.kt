@@ -10,7 +10,6 @@ import android.support.test.runner.AndroidJUnit4
 import com.innowireless.a01_kotlinimageparsinglist.view.MainActivity
 import com.innowireless.a01_kotlinimageparsinglist.view.image.presenter.ImageContract
 import com.innowireless.a01_kotlinimageparsinglist.view.image.presenter.ImagePresenter
-import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -65,13 +64,12 @@ class MainActivityTest {
 
         onView(withId(R.id.et_password)).perform(typeText("1111"))
 
-//        onView(allOf(withId(R.id.btn_load_list)), withtext)
+//        onView(allOf(withId(R.id.btn_load_list)), withtext
         onView(withId(R.id.btn_load_list))
                 .perform(/*typeText("Hello!!"), */click())
 
 
         onView(withId(R.id.rv_image_info)).check(matches(isDisplayed()))
-
 
     }
 

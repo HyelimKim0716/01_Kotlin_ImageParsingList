@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/01_KotlinImageParsingList.iml" filepath="$PROJECT_DIR$/01_KotlinImageParsingList.iml" />
+      <module fileurl="file://C:\HLKim\02_Study\02_Android\03_Kotlin\12_Kotlin_ImageParsingList\01_KotlinImageParsingList.iml" filepath="C:\HLKim\02_Study\02_Android\03_Kotlin\12_Kotlin_ImageParsingList\01_KotlinImageParsingList.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/12_Kotlin_ImageParsingList.iml" filepath="$PROJECT_DIR$/.idea/12_Kotlin_ImageParsingList.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

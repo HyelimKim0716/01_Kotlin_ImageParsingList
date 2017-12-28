@@ -3,13 +3,11 @@ package com.innowireless.a01_kotlinimageparsinglist
 import com.innowireless.a01_kotlinimageparsinglist.view.image.presenter.ImageContract
 import com.innowireless.a01_kotlinimageparsinglist.view.image.presenter.ImagePresenter
 import io.reactivex.Observable
-import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
-
 import org.mockito.Mockito.*
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
@@ -92,15 +90,16 @@ class ExampleUnitTest {
     fun thenVerb() {
         val list = mock(ArrayList::class.java) as ArrayList<String>
 
-//        `when`(list[ArgumentMatchers.anyInt()]).thenThrow(NullPointerException())
-        `when`(list.clear()).thenThrow(RuntimeException())
-//        doThrow(RuntimeException()).`when`(list)[ArgumentMatchers.anyInt()]
-//        doThrow(RuntimeException()).`when`(list.clear())
+//        `when`(list[0]).thenThrow(NullPointerException())
+//        `when`(list.clear()).thenThrow(RuntimeException())
+
+//        doThrow(RuntimeException()).`when`(list)[0]
+        doNothing().`when`(list).clear()
+
 
 
         println(list[0])
-        list.clear()
-
+        println(list.clear())
 
         // thenAnswer
         // Mockito 에서 제공하지 않는 특성 customizing
@@ -117,7 +116,7 @@ class ExampleUnitTest {
         /* Stubbing consecutive calls */
         `when`(list[0])
                 .thenReturn("One", "Two", "Three")
-                .thenCallRealMethod()
+//                .thenCallRealMethod()
                 .thenAnswer { println("list[0] is called tree times") }
                 .thenThrow(RuntimeException())
 
@@ -127,7 +126,6 @@ class ExampleUnitTest {
         println(list[0])
         println(list[0])
         println(list[0])
-
     }
 
 
@@ -148,7 +146,7 @@ class ExampleUnitTest {
 
         // Stubbing void methods requires a different approach from when(object) becuz the compiler does not like void methods inside brackets
         // when parameter 로 void method 가 들어오는 경우 when parameter 로 객체를 삽입하고, doVerb() 사용
-        doThrow(RuntimeException()).`when`(mockedList).clear()
+//        doThrow(RuntimeException()).`when`(mockedList).clear()
         /*
         * org.mockito.exceptions.base.MockitoException:
         *   Only void methods can doNothing()!
@@ -160,17 +158,17 @@ class ExampleUnitTest {
         *    someVoidMethod() does nothing the 1st time but throws an exception the 2nd time is called
         *
         * */
-        doNothing().doReturn("Nothing").`when`(mockedList)[0]
-
+        doNothing().doReturn("Nothing").`when`(mockedList).clear()
         doReturn("Second value").`when`(mockedList)[1]
-        doCallRealMethod().`when`(mockedList)[2]
-        doAnswer { println("This is fourth value") }.`when`(mockedList[3])
+//        doCallRealMethod().`when`(mockedList)[2]
+//        doAnswer { println("This is fourth value") }.`when`(mockedList[3])
 
+        mockedList.clear()
         println(mockedList[0])
     }
 
     /**
-     * Argument amtchers allow flexible verification or stubbing
+     * Argument matchers allow flexible verification or stubbing
      * */
     @Test
     fun argumentTest() {
@@ -192,6 +190,11 @@ class ExampleUnitTest {
         // argument matchers can also be written as Java 8 Lamdas
         verify(mockedList).add(argThat { sth -> sth.length > 5})
 
+        /*
+        * ArgumentMatcher
+        * ArgumentCapture
+        * ArgumentThat
+        * */
     }
 
     /**
@@ -200,6 +203,7 @@ class ExampleUnitTest {
      * */
     @Test
     fun spyTest() {
+
         val list = arrayListOf<String>()
         val spyList = spy(list)
 
@@ -223,10 +227,12 @@ class ExampleUnitTest {
         // Therefore when using spies please consider doReturn|Answer|Throw() family of methods for stubbing
 
         // Impossible : real method is called so spy.get(0) throws IndexOutOfBoundsException (the list is yet empty)
-//        `when`(spyList[2]).thenReturn("foo")
+        `when`(spyList[2]).thenReturn("foo2")
+        println(spyList[2])
 
         // You have to use doReturn() for stubbing
-        doReturn("foo").`when`(spyList)[2]
+        doReturn("foo1").`when`(spyList)[2]
+        println(spyList[2])
 
         /* Mockito *does not* delegate calls to the passed real instance,
         * instead it actually creates a copy of it.
@@ -290,6 +296,7 @@ class ExampleUnitTest {
 
     @Test
     fun spyAnnotationTest() {
+//        val spyList = arrayListOf<String>()
         spyList.add("one")
         spyList.add("two")
 
