@@ -1,0 +1,6 @@
+public open class Todo : io.realm.RealmObject() {
+    @io.realm.annotations.PrimaryKey
+    public open var id: String = ""
+    public open var title: String = ""
+    public open var description: String = ""
+}
